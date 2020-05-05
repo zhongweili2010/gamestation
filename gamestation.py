@@ -1,8 +1,14 @@
-from flask import Flask, request,jsonify
+from flask import Flask, request,jsonify,send_file,render_template
 import pandas as pd
+from flask_cors import CORS
+from datetime import datetime
+
+
 app = Flask(__name__) 
 app.secret_key = 'keep it secret, keep it safe'   
-from datetime import datetime
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
+
 
 @app.route('/rest/hardware/query/<startDate>/<endDate>')
 def searchHardwareByDate(startDate,endDate):
@@ -27,7 +33,9 @@ def login(username,password):
 
 
 
-
+@app.route("/")
+def index():
+    return render_template("./angular-tour-of-heroes/index.html")
 
 if __name__=="__main__":
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=9090)
