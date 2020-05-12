@@ -1,10 +1,3 @@
-<nav>
-  <a routerLinkActive="active" routerLink="/login">Login</a>
-  <a routerLinkActive="active" routerLink="/home">Home</a>
-  <a routerLink="/demo">demo</a>
-  <a routerLink="/csd">query</a>
-  <a routerLink="/hyp">upload</a>
-  <a (click)="logout()">Logout</a>
-</nav>
-
+<p-tabMenu [model]="items1" *ngIf="isLoggedIn()"></p-tabMenu>
+<p></p>
 <router-outlet></router-outlet>

@@ -18,6 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { TabMenuModule } from 'primeng/tabmenu';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
@@ -30,12 +31,14 @@ import { HypDashboardComponent } from './hyp-dashboard/hyp-dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { DemoComponent } from './demo/demo.component';
 import { CsdQueryComponent } from './csd-query/csd-query.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoComponent,
     ErrorPageComponent,
+    HomeComponent,
     HypDashboardComponent,
     LoginComponent,
     CsdQueryComponent
@@ -61,6 +64,7 @@ import { CsdQueryComponent } from './csd-query/csd-query.component';
     ProgressSpinnerModule,
     ReactiveFormsModule,
     SplitButtonModule,
+    TabMenuModule,
     TableModule,
     TabViewModule,
     ToastModule,

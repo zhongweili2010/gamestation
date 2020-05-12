@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppService } from './app.service';
+import { debug } from 'util';
 
 @Component({
   templateUrl: './login.component.html',
@@ -9,16 +9,19 @@ import { AppService } from './app.service';
 })
 export class LoginComponent {
 
-  credentials = { username: '', password: '' };
+  username: string;
+  password: string;
+  message: any;
 
-  constructor(private app: AppService, private http: HttpClient, private router: Router) {
+  constructor(private service: AppService, private router: Router) {
   }
 
-  login() {
-    this.app.authenticate(this.credentials, () => {
-      this.router.navigateByUrl('/');
-    });
-    return false;
+  public doLogin() {
+    let resp = this.service.login(this.username, this.password);
+    resp.subscribe(data => {
+      console.log(data);
+      localStorage.setItem("isLoggedIn", "true");
+      this.router.navigate(['/home']);
+    })
   }
-
 }
