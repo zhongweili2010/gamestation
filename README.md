@@ -23,3 +23,8 @@ There are currently access control and data querying
 
   scalable connections and storage
 
+
+How to start the back-end server (Windowns)
+1.  venv/Scripts/activate.bat
+2.  python gamestation.py
+
