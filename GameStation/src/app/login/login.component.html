@@ -1,0 +1,35 @@
+<div id="alertDiv" class="alert alert-warning  alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	<span class="sr-only">Error:</span>
+</div>
+<div class="container">
+	<div class="row">
+		<br /> <br /> <br /> <br /> <br /> <br /> <br />
+		<div
+			class="col-xs-offset-1 col-sm-offset-2 col-md-offset-4 col-lg-offset-4 col-xs-10 col-sm-6 col-md-4 col-lg-3">
+			<form class="form-horizontal">
+				<div class="row">
+					<img style="float: left; padding: 0; margin: 0;" alt="Brand" src="assets/logo.png" />
+				</div>
+				<div class="row">
+					<input type="text" class="form-control" id="username" name="username" placeholder="Username"
+						required [(ngModel)]="username" />
+				</div>
+				<br />
+				<div class="row">
+					<input type="password" class="form-control" id="password" name="password" placeholder="Password"
+						required [(ngModel)]="password" />
+				</div>
+				<br />
+				<div class="row">
+					<input type="submit" class="btn btn-lg btn-warning btn-block" name="Login" id="go" value="Login"
+						(click)="doLogin()" />
+					<!-- <button class="btn btn-lg btn-warning btn-block" type="submit" (click)="login()">Sign in</button> -->
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

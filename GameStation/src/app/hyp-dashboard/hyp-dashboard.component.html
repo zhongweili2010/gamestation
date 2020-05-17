@@ -1,0 +1,75 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-table [columns]="cols" [value]="datas" sortMode="multiple" [resizableColumns]="true" [paginator]="true" [rows]="10"
+    [rowsPerPageOptions]="[10,50,100]" [totalRecords]="datas.length" [tableStyle]="{'table-layout':'auto'}"
+    [loading]="loading" *ngIf="datas">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn nowrap>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["txPeriod"] | date:'yyyy/MM/dd'}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["srcFile"]}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["step1"] | date:'yyyy/MM/dd hh:mm:ss a'}}
+                &nbsp;
+                <button type="button" class="btn btn-outline-success btn-sm"
+                    (click)="onDownload(rowData['srcFile'])">export</button>
+                &nbsp;
+                &nbsp;
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                    (click)="deleteConfirm(rowData['srcFile'])">delete</button>
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["step2"] | date:'yyyy/MM/dd hh:mm:ss a'}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["step3"] | date:'yyyy/MM/dd hh:mm:ss a'}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["step4"] | date:'yyyy/MM/dd hh:mm:ss a'}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["createdBy"]}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["created"] | date:'yyyy/MM/dd hh:mm:ss a'}}
+            </td>
+            <td class="ui-resizable-column" nowrap>
+                {{rowData["modified"] | date:'yyyy/MM/dd hh:mm:ss a'}}
+            </td>
+        </tr>
+    </ng-template>
+    <!-- <ng-template pTemplate="footer" let-columns>
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{col.header}}
+                </td>
+            </tr>
+        </ng-template> -->
+    <ng-template id="pageCount" pTemplate="paginatorleft" let-state>
+        Displaying {{state.first + 1}} -
+        {{(state.rows * (state.page + 1))>state.totalRecords?state.totalRecords:state.rows * (state.page + 1)}}
+        of {{datas.length}}
+    </ng-template>
+</p-table>
+<p-confirmDialog></p-confirmDialog>
+<br>
+<br>
+<br>
+<div>
+    <h4>Step1-upload</h4>
+    <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="myUploader($event)" accept=".csv, .txt"
+        maxFileSize="10000000" auto="auto">
+    </p-fileUpload>
+    <p class="help-block">Must be a .csv | .txt file</p>
+</div>
