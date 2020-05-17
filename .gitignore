@@ -1,2 +1,6 @@
 venv/*
 venv
+migrations/
+migrations
+*.sqlite
+develop.sqlite
