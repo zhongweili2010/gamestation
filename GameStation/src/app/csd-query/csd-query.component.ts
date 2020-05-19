@@ -72,8 +72,15 @@ export class CsdQueryComponent implements OnInit {
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.selectedItems.map.call
-        // this.dataService.delete(this.selectedItems.id);
+        this.dataService.delete(this.selectedItems).subscribe((d: any) => {
+          this.messageService.add({ severity: 'success', summary: 'Service Message', detail: d });
+          this.selectedItems = [];
+          this.preview();
+        },
+          (err: any) => {
+            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
+          }
+        );
       },
       reject: () => {
         this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected.' });

@@ -22,11 +22,6 @@ export class HypDashboardService {
   }
 
   fileUpload(formData: FormData) {
-    return this.http.post<any>(`${this.url}/rest/hyp/fileupload`, formData, {
-      headers: new HttpHeaders({
-        // 'Content-Type': 'multipart/*',
-        'Access-Control-Allow-Origin': '*',
-      })
-    });
+    return this.http.post<any>(`http://localhost:9090/rest/hardware/upload`, formData);
   }
 }
