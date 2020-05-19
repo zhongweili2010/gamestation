@@ -1,5 +1,5 @@
 <p-toast life="9000" [style]="{marginTop: '30px'}"></p-toast>
-
+<p-confirmDialog></p-confirmDialog>
 <div class="inline">
     <div class="form-inline col-md-5 col-lg-5">
         <h5>Time Period: </h5>
@@ -8,7 +8,11 @@
         <p-calendar [(ngModel)]="endDate" showButtonBar="true" dateFormat="mm-dd-yy"></p-calendar>
     </div>
     <div class="form-inline col-md-1 col-lg-1">
-        <button pButton type="button" label="Submit" (click)="preview()"></button>
+        <button pButton type="button" class="ui-button-rounded" label="Preview" (click)="preview()"></button>
+    </div>
+    <div class="form-inline col-md-1 col-lg-1">
+        <button pButton type="button" class="ui-button-rounded ui-button-danger" label="delete"
+            (click)="deleteConfirm()" [disabled]="selectedItems?selectedItems.length==0:true"></button>
     </div>
 </div>
 <div class="modal-dialog modal-sm" style="z-index:99999;" *ngIf='waitDiv'>
@@ -18,29 +22,53 @@
 <div class='table-full' style="position: fixed; right: 1px; bottom: 10px; width: 100%; top: 100px;" *ngIf="!disabled">
     <div class="table-responsive"
         style="font-size: 10px; width: 100%; height: 100%; overflow-x: auto; overflow-y: auto;">
-        <p-table [columns]="cols" [value]="datas" sortMode="multiple" [resizableColumns]="true" [paginator]="true"
-            [rows]="10" [rowsPerPageOptions]="[10,50,100]" [tableStyle]="{'table-layout':'auto'}" [loading]="loading">
+        <p-table [columns]="cols" [value]="datas" [(selection)]="selectedItems" sortMode="multiple" editMode="row"
+            [resizableColumns]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]"
+            [tableStyle]="{'table-layout':'auto'}" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
                 <tr>
+                    <th style="width: 3em">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn nowrap>
                         {{col.header}}
                         <p-sortIcon [field]="col.field"></p-sortIcon>
                     </th>
+                    <th style="width:8em"></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr [pSelectableRow]="rowData">
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="rowData"  [pSelectableRow]="rowData">
+                    <td class="ui-resizable-column" nowrap>
+                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    </td>
                     <td *ngFor="let col of columns" class="ui-resizable-column" nowrap>
-                        {{rowData[col.field]}}
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <!-- <input pInputText type="text" [(ngModel)]="rowData[col.field]}"> -->
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData[col.field]}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td style="text-align:center">
+                        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil"
+                            class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check"
+                            class="ui-button-success" style="margin-right: .5em"
+                            (click)="onRowEditSave(rowData)"></button>
+                        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times"
+                            class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
                     </td>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="footer" let-columns>
-                <tr>
-                    <td *ngFor="let col of columns">
-                        {{col.header}}
-                    </td>
-                </tr>
+            <ng-template pTemplate="summary">
+                <ul>
+                    <li *ngFor="let g of selectedItems" style="text-align: left">
+                        {{g.PLATFORM}}
+                    </li>
+                </ul>
             </ng-template>
             <ng-template id="pageCount" pTemplate="paginatorleft" let-state>
                 Displaying {{state.first + 1}} -
@@ -49,4 +77,4 @@
             </ng-template>
         </p-table>
     </div>
-</div> 
+</div>

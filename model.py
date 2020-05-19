@@ -40,3 +40,27 @@ class Hardware(db.Model):
 
 
 # # Base.metadata.create_all(db)
+
+
+class Profile(db.Model):
+    __tablename__='profile'
+
+    username= db.Column(String,primary_key=True)
+    email=db.Column(String,nullable=True)
+    first_name=db.Column(String,nullable=True)
+    last_name=db.Column(String,nullable=True)
+
+    def __init__(self,username,email,first_name,last_name):
+        self.username=username
+        self.email=email
+        self.first_name=first_name
+        self.last_name=last_name
+
+
+    def to_json(self):
+        return {
+            "username":self.username,
+            "email":self.email,
+            "first_name":self.first_name,
+            "last_name":self.last_name
+        }

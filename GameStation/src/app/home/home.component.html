@@ -1,3 +1,5 @@
+<p-toast life="9000" [style]="{marginTop: '30px'}"></p-toast>
+
 <div class="col-xs-10 col-sm-9 col-md-7 col-lg-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
 	<form class="form-horizontal">
 		<fieldset>
@@ -10,30 +12,30 @@
 				<label for="inputUsername" class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label">User
 					name</label>
 				<div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
-					<input name="username" type="text" class="form-control" id="inputUsername" placeholder="User name"
-						required="required" value="" />
+					<input name="username" type="text" class="form-control" id="inputUsername" required="required"
+						disabled [(ngModel)]="pf.username" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="inputEmail" class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label">Email</label>
 				<div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
 					<input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email address"
-						required="required" value="" />
+						[(ngModel)]="pf.email" />
 				</div>
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label for="inputPassword" class="col-xs-3 col-sm-2 col-md-2 col-lg-2  control-label">Password</label>
 				<div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
 					<input name="rawPassword" type="password" class="form-control" id="inputPassword"
-						placeholder="Password" required="required" value="" />
+						placeholder="Password" required="required" [(ngModel)]="pf.password" />
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group">
 				<label for="inputFirstname" class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label">First
 					name</label>
 				<div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
 					<input name="firstName" type="text" class="form-control" id="inputFirstname"
-						placeholder="First name" required="required" value="" />
+						placeholder="First name" [(ngModel)]="pf.first_name" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -41,15 +43,14 @@
 					name</label>
 				<div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
 					<input name="lastName" type="text" class="form-control" id="inputLastname" placeholder="Last name"
-						required="required" value="" />
+						[(ngModel)]="pf.last_name" />
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2"></div>
 				<div class="col-xs-8 col-sm-5 col-md-5 col-lg-4">
-					<input type="submit" class="btn btn-warning" value="Update" data-loading-text="Updating..." />
-					&nbsp;
-					<input type="reset" class="btn btn-default" value="Reset" />
+					<input type="submit" class="btn btn-warning" value="Update" data-loading-text="Updating..."
+						(click)="doUpdate()" />
 				</div>
 			</div>
 		</fieldset>

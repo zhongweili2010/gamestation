@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { CsdService as DataService } from './csd.service';
-import { Observable, of } from 'rxjs';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-csd-query',
   templateUrl: './csd-query.component.html',
   styleUrls: ['./csd-query.component.css'],
-  providers: [DatePipe, MessageService, DataService]
+  providers: [DatePipe, MessageService, DataService, ConfirmationService]
 })
 export class CsdQueryComponent implements OnInit {
   startDate: Date = new Date('2010/01/01');
@@ -17,13 +15,14 @@ export class CsdQueryComponent implements OnInit {
 
   sql: string;
   datas: any[];
-
+  selectedItems: any[];
   disabled: boolean = true;
   waitDiv: boolean = false;
   loading: boolean = false;
 
   totalRecords: number;
   cols: any[] = [
+    { field: 'id', header: 'ID' },
     { field: 'TIME_PERIOD', header: 'TIME_PERIOD' },
     { field: 'UNITS', header: 'UNITS' },
     { field: 'PLATFORM', header: 'PLATFORM' },
@@ -31,41 +30,13 @@ export class CsdQueryComponent implements OnInit {
     { field: 'AVERAGE_PRICE', header: 'AVERAGE_PRICE' }
   ];
 
-  constructor(private datePipe: DatePipe, private messageService: MessageService, private dataService: DataService) { }
+  constructor(private datePipe: DatePipe, private messageService: MessageService, private dataService: DataService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
   }
 
   getFormatedDate(date: Date) {
-    return this.datePipe.transform(date, "MM-dd-yyyy");
-  }
-
-  onLazyLoad(event: LazyLoadEvent) {
-    //event.first = First row offset
-    //event.rows = Number of rows per page
-    //event.sortField = Field name to sort with
-    //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
-    //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
-
-    if (this.disabled)
-      return;
-    this.loading = true;
-    this.dataService.lazyLoad(this.sql, JSON.stringify(event)).subscribe(
-      (d: any) => {
-        this.totalRecords = d.total;
-        this.datas = d.data;
-        this.datas.forEach(d => {
-          d.TX_PERIOD = this.datePipe.transform(d.TX_PERIOD, "M-y");
-        });
-      },
-      (err: any) => {
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
-      },
-      () => {
-        this.loading = false;
-      }
-    );
-
+    return this.datePipe.transform(date, "yyyy-MM-dd");
   }
 
   preview() {
@@ -73,13 +44,6 @@ export class CsdQueryComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please select a date!' });
       return;
     }
-    // let event: LazyLoadEvent = {
-    //   first: 0,
-    //   rows: 10,
-    //   sortOrder: 1,
-    //   filters: {},
-    //   globalFilter: null,
-    // };
 
     this.waitDiv = true;
     this.loading = true;
@@ -87,9 +51,9 @@ export class CsdQueryComponent implements OnInit {
       (d: any) => {
         this.datas = d;
         // this.totalRecords = d.total;
-        // this.datas.forEach(d => {
-        //   d.TX_PERIOD = this.datePipe.transform(d.TX_PERIOD, "MM-dd-yyyy");
-        // });
+        this.datas.forEach(t => {
+          t.TIME_PERIOD = this.datePipe.transform(t.TIME_PERIOD, "yyyy-MM-dd");
+        });
       },
       (err: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
@@ -100,5 +64,30 @@ export class CsdQueryComponent implements OnInit {
         this.disabled = false;
       }
     );
+  }
+
+  deleteConfirm() {
+    this.confirmationService.confirm({
+      message: `Are you sure to delete these ${this.selectedItems.length} items ?`,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.selectedItems.map.call
+        // this.dataService.delete(this.selectedItems.id);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected.' });
+      }
+    });
+  }
+
+  onRowEditInit(row) {
+  }
+
+  onRowEditSave(row) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Car is updated' });
+  }
+
+  onRowEditCancel(row, index: number) {
   }
 }
