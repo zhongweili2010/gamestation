@@ -1,14 +1,12 @@
 from flask import Flask, request,jsonify,send_file,render_template
 import os
 import pandas as pd
-from flask_cors import CORS
+# from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 from app import create_app,db
-app = Flask(__name__) 
-app.secret_key = 'keep it secret, keep it safe'   
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 
 
