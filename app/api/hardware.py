@@ -23,21 +23,24 @@ def searchHardwareAll():
     return jsonify([i.to_json() for i in my_list]),200
 
 #delete by id
-@api.route('/hardware/delete/<id>',methods=['DELETE'])
-def deleteHardware(id):
-    my_item=db.session.query(Hardware).filter(Hardware.id==id).first()
-    try:
-        db.session.delete(my_item)
-        db.session.commit()      
-    except Exception as e:
-        db.session.rollback()
-        logger.error("cannot delete object"+str(e))
-        return jsonify("object not deleted,"+str(e))
-    finally:
-        db.session.close()
+@api.route('/hardware/delete',methods=['POST'])
+def deleteHardware():
+    delete_list=request.get_json()['delete']
+    for object_del in delete_list:
+        id=object_del['id']
+        my_item=db.session.query(Hardware).filter(Hardware.id==id).first()
+        try:
+            db.session.delete(my_item)
+            db.session.commit()      
+        except Exception as e:
+            db.session.rollback()
+            logger.error("cannot delete object"+str(e))
+            return jsonify("object not deleted,"+str(e))
+        finally:
+            db.session.close()
 
     return jsonify("objects deleted from db success")
-
+#update by id
 @api.route('/hardware/patch/<id>',methods=['PATCH'])
 def editHardware(id):
     my_item=db.session.query(Hardware).filter(Hardware.id==id).first()
