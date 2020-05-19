@@ -30,7 +30,8 @@ export class AppComponent {
     if (localStorage.getItem('isLoggedIn') == "true") {
       return true;
     }
-    return false;
+    // return false;
+    return true;
   }
 
   public doLogout() {

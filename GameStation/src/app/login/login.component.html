@@ -31,9 +31,35 @@
 				</div>
 				<br />
 				<div class="row">
-					<a href="">Sign up</a>
+					<a href="javascipt:void(0)" (click)="this.displayDialog = true;">Sign up</a>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
+<p-dialog header="Registration" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+	[closable]="true" [width]="600">
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-3"><label for="jobClassName">Username:</label></div>
+		<div class="ui-g-9"><input pInputText id="jobClassName" [(ngModel)]="info.username" required /></div>
+
+		<div class="ui-g-3"><label for="cronExpression">Password:</label></div>
+		<div class="ui-g-9"><input pInputText type="password" id="cronExpression" [(ngModel)]="info.password"
+				required /></div>
+
+		<div class="ui-g-3"><label for="jobGroupName">Email:</label></div>
+		<div class="ui-g-9"><input pInputText id="jobGroupName" [(ngModel)]="info.email" /></div>
+
+		<div class="ui-g-3"><label for="jobName">Firstname:</label></div>
+		<div class="ui-g-9"><input pInputText id="jobName" [(ngModel)]="info.firstname" /></div>
+
+		<div class="ui-g-3"><label for="triggerGroupName">Lastname:</label></div>
+		<div class="ui-g-9"><input pInputText id="triggerGroupName" [(ngModel)]="info.lastname" /></div>
+	</div>
+	<p-footer>
+		<div class="ui-dialog-buttonpane ui-helper-clearfix">
+			<button type="button" pButton icon="pi pi-check" (click)="save()" label="Submit"></button>
+		</div>
+	</p-footer>
+</p-dialog>
