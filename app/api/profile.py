@@ -2,7 +2,6 @@ from logging import getLogger
 from . import api
 from sqlalchemy.orm import sessionmaker
 from flask import Flask,request,jsonify
-from flask_cors import CORS, cross_origin
 Session= sessionmaker
 from model import Profile
 logger=getLogger(__name__)
@@ -11,20 +10,17 @@ import datetime
 
 #get all
 @api.route('/hardware/user/queryAll')
-@cross_origin()
 def searchUserAll():
     my_list=db.session.query(Profile).all()
     return jsonify([i.to_json() for i in my_list]),200
 
 @api.route('/hardware/user/query/<name>')
-@cross_origin()
 def searchUserByName(name):
     my_item=db.session.query(Profile).filter(Profile.username==name).first()
     print(my_item)
     return jsonify(my_item.to_json())
 
 @api.route('/hardware/user/update/<username>',methods=['PATCH'])
-@cross_origin()
 def updateUser(username):
     object_update=request.get_json()
     my_item=db.session.query(Profile).filter(Profile.username==username).first()

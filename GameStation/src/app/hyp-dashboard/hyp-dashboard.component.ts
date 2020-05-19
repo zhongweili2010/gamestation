@@ -134,11 +134,8 @@ export class HypDashboardComponent implements OnInit {
 
   doUpload(file) {
     let formData = new FormData();
-    formData.append("file", file);
-    formData.append("user", this.user);
     this.hypDashboardService.fileUpload(formData).subscribe(d => {
       this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: 'Done' });
-      this.listAll();
     },
       (error: any) => {
         console.info(error);

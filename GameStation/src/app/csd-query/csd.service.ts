@@ -53,8 +53,7 @@ export class CsdService {
     return this.http.get(`http://localhost:9090/rest/hardware/query/${startDate}/${endDate}`);
   }
 
-  delete(ids: string[]) {
-    console.info(ids);
-    return this.http.delete(`http://localhost:9090/rest/hardware/delete`, { params: { ids } });
+  delete(items: any[]) {
+    return this.http.post(`http://localhost:9090/rest/hardware/delete`, { delete: items });
   }
 }
