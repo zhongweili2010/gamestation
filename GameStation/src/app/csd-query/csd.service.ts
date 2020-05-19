@@ -56,4 +56,8 @@ export class CsdService {
   delete(items: any[]) {
     return this.http.post(`http://localhost:9090/rest/hardware/delete`, { delete: items });
   }
+
+  update(item: any) {
+    return this.http.patch(`http://localhost:9090/rest/hardware/patch/${item.id}`, item);
+  }
 }

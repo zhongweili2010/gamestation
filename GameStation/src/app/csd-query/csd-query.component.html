@@ -22,7 +22,7 @@
 <div class='table-full' style="position: fixed; right: 1px; bottom: 10px; width: 100%; top: 100px;" *ngIf="!disabled">
     <div class="table-responsive"
         style="font-size: 10px; width: 100%; height: 100%; overflow-x: auto; overflow-y: auto;">
-        <p-table [columns]="cols" [value]="datas" [(selection)]="selectedItems" sortMode="multiple" editMode="row"
+        <p-table [columns]="cols" [value]="datas" [(selection)]="selectedItems" sortMode="multiple"
             [resizableColumns]="true" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]"
             [tableStyle]="{'table-layout':'auto'}" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
@@ -37,29 +37,16 @@
                     <th style="width:8em"></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing" let-ri="rowIndex">
-                <tr [pEditableRow]="rowData"  [pSelectableRow]="rowData">
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-ri="rowIndex">
+                <tr [pSelectableRow]="rowData">
                     <td class="ui-resizable-column" nowrap>
                         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
                     </td>
                     <td *ngFor="let col of columns" class="ui-resizable-column" nowrap>
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <!-- <input pInputText type="text" [(ngModel)]="rowData[col.field]}"> -->
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{rowData[col.field]}}
-                            </ng-template>
-                        </p-cellEditor>
+                        {{rowData[col.field]}}
                     </td>
                     <td style="text-align:center">
-                        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil"
-                            class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
-                        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check"
-                            class="ui-button-success" style="margin-right: .5em"
-                            (click)="onRowEditSave(rowData)"></button>
-                        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times"
-                            class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                        <button pButton icon="pi pi-pencil" (click)="selectRowWithButton(rowData)"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -78,3 +65,34 @@
         </p-table>
     </div>
 </div>
+
+<p-dialog header="Edit" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [closable]="true" [width]="600">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-3"><label for="jobClassName">ID:</label></div>
+        <div class="ui-g-9"><input pInputText id="jobClassName" [(ngModel)]="salesData.id" disabled /></div>
+
+        <div class="ui-g-3"><label for="jobGroupName">TIME_PERIOD:</label></div>
+        <div class="ui-g-9"><input pInputText id="jobGroupName" [(ngModel)]="salesData.TIME_PERIOD" disabled /></div>
+
+        <div class="ui-g-3"><label for="cronExpression">PLATFORM:</label></div>
+        <div class="ui-g-9"><input pInputText id="cronExpression" [(ngModel)]="salesData.PLATFORM" /></div>
+
+        <div class="ui-g-3"><label for="jobName">UNITS:</label></div>
+        <div class="ui-g-9"><input pInputText id="jobName" [(ngModel)]="salesData.UNITS" /></div>
+
+        <div class="ui-g-3"><label for="triggerGroupName">DOLLARS:</label></div>
+        <div class="ui-g-9"><input pInputText id="triggerGroupName" [(ngModel)]="salesData.DOLLARS" /></div>
+
+        <div class="ui-g-3"><label for="triggerName">AVERAGE_PRICE:</label></div>
+        <div class="ui-g-9"><input pInputText id="triggerName" [(ngModel)]="salesData.AVERAGE_PRICE" /></div>
+
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="displayDialog=false" label="Cancel"
+                class="btn btn-secondary" s></button>
+        </div>
+    </p-footer>
+</p-dialog>

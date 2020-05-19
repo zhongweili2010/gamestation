@@ -19,16 +19,26 @@ export class CsdQueryComponent implements OnInit {
   disabled: boolean = true;
   waitDiv: boolean = false;
   loading: boolean = false;
+  displayDialog: boolean = false;
 
   totalRecords: number;
   cols: any[] = [
     { field: 'id', header: 'ID' },
     { field: 'TIME_PERIOD', header: 'TIME_PERIOD' },
-    { field: 'UNITS', header: 'UNITS' },
     { field: 'PLATFORM', header: 'PLATFORM' },
+    { field: 'UNITS', header: 'UNITS' },
     { field: 'DOLLARS', header: 'DOLLARS' },
     { field: 'AVERAGE_PRICE', header: 'AVERAGE_PRICE' }
   ];
+
+  salesData = {
+    id: '',
+    TIME_PERIOD: '',
+    PLATFORM: '',
+    UNITS: '',
+    DOLLARS: '',
+    AVERAGE_PRICE: ''
+  };
 
   constructor(private datePipe: DatePipe, private messageService: MessageService, private dataService: DataService, private confirmationService: ConfirmationService) { }
 
@@ -88,13 +98,23 @@ export class CsdQueryComponent implements OnInit {
     });
   }
 
-  onRowEditInit(row) {
+  selectRowWithButton(item: any) {
+    this.salesData = item;
+    this.displayDialog = true;
   }
 
-  onRowEditSave(row) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Car is updated' });
-  }
-
-  onRowEditCancel(row, index: number) {
+  save() {
+    this.dataService.update(this.salesData).subscribe(
+      (d: any) => {
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: d });
+      },
+      (err: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
+      },
+      () => {
+        this.displayDialog = false;
+        this.preview();
+      }
+    );
   }
 }

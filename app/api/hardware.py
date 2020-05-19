@@ -51,9 +51,10 @@ def editHardware(id):
         my_item.platform= object_update.get('PLATFORM') or my_item.platform
         my_item.unit= object_update.get('UNITS') or my_item.unit
         my_item.dollar= object_update.get('DOLLARS') or my_item.dollar
+        my_item.average_price= object_update.get('AVERAGE_PRICE') or my_item.average_price
         my_time= object_update.get('TIME_PERIOD')
         if(my_time):
-            my_item.time_period= datetime.datetime.strptime(object_update.get('TIME_PERIOD'), '%Y-%m-%dT%H:%M:%S.%fZ')
+            my_item.time_period= datetime.datetime.strptime(object_update.get('TIME_PERIOD'), '%Y-%m-%d')
         db.session.merge(my_item)
         db.session.commit()      
     except Exception as e:
@@ -65,6 +66,7 @@ def editHardware(id):
     return jsonify("object patch success")
 @api.route('/hardware/upload',methods=['POST'])
 def uploadFile():
+    print(request.files)
     my_file=request.files['0']
     df=pandas.read_csv(my_file,parse_dates=['TIME_PERIOD'],sep=',')
 

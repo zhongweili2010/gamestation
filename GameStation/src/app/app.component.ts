@@ -16,7 +16,7 @@ export class AppComponent {
   items1: MenuItem[] = [
     // { label: 'Login', routerLink: '/login' },
     { label: 'Home', routerLink: '/home' },
-    { label: 'demo', routerLink: '/demo' },
+    // { label: 'demo', routerLink: '/demo' },
     { label: 'query', routerLink: '/csd' },
     { label: 'upload', routerLink: '/hyp' },
     {
