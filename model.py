@@ -28,6 +28,7 @@ class Hardware(db.Model):
             "PLATFORM":self.platform,
             "UNITS":self.unit,
             "DOLLARS":self.dollar,
+            "AVERAGE_PRICE":self.average_price,
             "TIME_PERIOD":self.time_period,
         }
 #     def from_json(self,jsonObject):

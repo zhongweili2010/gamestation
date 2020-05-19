@@ -1,5 +1,6 @@
 from logging import getLogger
 from . import api
+import pandas
 from sqlalchemy.orm import sessionmaker
 from flask import Flask,request,jsonify
 Session= sessionmaker
@@ -62,9 +63,32 @@ def editHardware(id):
     finally:
         db.session.close()
     return jsonify("object patch success")
+@api.route('/hardware/upload',methods=['POST'])
+def uploadFile():
+    my_file=request.files['0']
+    df=pandas.read_csv(my_file,parse_dates=['TIME_PERIOD'],sep=',')
 
+    try:
+        db.session.query(Hardware).delete()
+        for i in range(len(df['TIME_PERIOD'])):
+            new_hardware=Hardware(
+                df['PLATFORM'][i],
+                int(df['UNITS'][i]),
+                int(df['DOLLARS'][i]),
+                df['AVERAGE_PRICE'][i],
+                df['TIME_PERIOD'][i])
 
+            db.session.add(new_hardware)
 
+        db.session.commit()      
+    except Exception as e:
+        db.session.rollback()
+        logger.error("cannot insert object"+str(e))
+        return jsonify("object not validated,"+str(e))
+    finally:
+        db.session.close()
+
+    return jsonify("objects added to db success")
 #add by list
 @api.route('/hardware/add',methods=["POST"])
 def addHardware():
