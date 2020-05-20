@@ -22,7 +22,7 @@ export class AppService {
     }
 
     public signup(info: any) {
-        return this.http.post(`http://localhost:9090/rest/hardware/sign`, info, { responseType: 'text' });
+        return this.http.post(`http://localhost:9090/rest/hardware/signup`, info, { responseType: 'text' });
     }
 
     public signupDB(info: any) {
