@@ -42,17 +42,17 @@ export class LoginComponent {
   }
 
   save() {
-    // this.service.signup(this.info).subscribe(
-    //   (d: any) => {
-    //     this.messageService.add({ severity: 'success', summary: 'Service Message', detail: d });
-    //   },
-    //   (err: any) => {
-    //     this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
-    //   },
-    //   () => {
-    //     this.displayDialog = false;
-    //   }
-    // );
+    this.service.signup(this.info).subscribe(
+      (d: any) => {
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: d });
+      },
+      (err: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
+      },
+      () => {
+        this.displayDialog = false;
+      }
+    );
 
     this.service.signupDB(this.info).subscribe(
       (d: any) => {

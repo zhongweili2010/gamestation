@@ -27,8 +27,8 @@ def signup():
     username= user_information.get('username')
     password= user_information.get('password')
     email= user_information.get('email')
-    first_name= user_information.get('first_name') 
-    last_name= user_information.get('last_name')
+    first_name= user_information.get('firstname') 
+    last_name= user_information.get('lastname')
     
     fhand = open('saved_passwords.txt', "r")
     for line in fhand:

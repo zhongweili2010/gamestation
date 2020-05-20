@@ -10,7 +10,7 @@ export class AppService {
 
     public login(username: string, password: string) {
         // const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-        return this.http.get(`http://localhost:9090/rest/hardware/user/login/${username}/${password}`);
+        return this.http.get(`http://localhost:9090/rest/login/${username}/${password}`);
     }
 
     public getUser(username: string) {
@@ -22,7 +22,7 @@ export class AppService {
     }
 
     public signup(info: any) {
-        return this.http.post(`http://localhost:9090/rest/hardware/signup`, info, { responseType: 'text' });
+        return this.http.post(`http://localhost:9090/rest/signup`, info, { responseType: 'text' });
     }
 
     public signupDB(info: any) {
