@@ -29,15 +29,20 @@ export class LoginComponent {
 
   public doLogin() {
     let resp = this.service.login(this.username, this.password);
-    resp.subscribe(data => {
+    resp.subscribe((data: any) => {
       console.log(data);
-      localStorage.setItem("isLoggedIn", "true");
-      this.router.navigate(['/home']);
+      if (data.result) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", data.username);
+        this.router.navigate(['/home']);
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: data });
+      }
     })
   }
 
   save() {
-    // this.service.update(this.info).subscribe(
+    // this.service.signup(this.info).subscribe(
     //   (d: any) => {
     //     this.messageService.add({ severity: 'success', summary: 'Service Message', detail: d });
     //   },
@@ -48,5 +53,17 @@ export class LoginComponent {
     //     this.displayDialog = false;
     //   }
     // );
+
+    this.service.signupDB(this.info).subscribe(
+      (d: any) => {
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: d });
+      },
+      (err: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: err });
+      },
+      () => {
+        this.displayDialog = false;
+      }
+    );
   }
 }
