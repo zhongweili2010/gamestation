@@ -17,8 +17,8 @@ export class AppComponent {
     // { label: 'Login', routerLink: '/login' },
     { label: 'Home', routerLink: '/home' },
     // { label: 'demo', routerLink: '/demo' },
-    { label: 'query', routerLink: '/csd' },
-    { label: 'upload', routerLink: '/hyp' },
+    { label: 'query', routerLink: '/query' },
+    { label: 'upload', routerLink: '/upload' },
     {
       label: 'Logout', command: (event) => {
         this.doLogout();

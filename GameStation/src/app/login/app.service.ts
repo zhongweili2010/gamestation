@@ -9,8 +9,8 @@ export class AppService {
     constructor(private http: HttpClient) { }
 
     public login(username: string, password: string) {
-        const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-        return this.http.get("http://localhost:3166/", { headers, responseType: 'test' as 'json' });
+        // const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+        return this.http.get(`http://localhost:9090/rest/hardware/user/login/${username}/${password}`);
     }
 
     public getUser(username: string) {
@@ -19,5 +19,13 @@ export class AppService {
 
     public updateUser(username: string, user: any) {
         return this.http.patch(`http://localhost:9090/rest/hardware/user/update/${username}`, user, { responseType: 'text' });
+    }
+
+    public signup(info: any) {
+        return this.http.post(`http://localhost:9090/rest/hardware/sign`, info, { responseType: 'text' });
+    }
+
+    public signupDB(info: any) {
+        return this.http.post(`http://localhost:9090/rest/hardware/user/add`, info, { responseType: 'text' });
     }
 }

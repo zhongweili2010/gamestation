@@ -19,17 +19,19 @@ const httpOptions = {
 })
 export class HomeComponent implements OnInit {
   pf = {
+    username: '',
+    password: '',
     email: '',
     first_name: '',
     last_name: '',
-    username: '',
   };
 
   constructor(private app: AppService, private http: HttpClient, private messageService: MessageService) {
   }
 
   ngOnInit() {
-    this.app.getUser("Wayne").subscribe(d => {
+    let username = localStorage.getItem("username");
+    this.app.getUser(username).subscribe(d => {
       this.pf = JSON.parse(d)
     });
   }

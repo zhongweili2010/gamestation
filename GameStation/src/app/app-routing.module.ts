@@ -19,11 +19,11 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'hyp',
+    path: 'upload',
     component: HypDashboardComponent
   },
   {
-    path: 'csd',
+    path: 'query',
     component: CsdQueryComponent
   },
   {
