@@ -22,7 +22,7 @@
     "@angular/router": "^8.2.14",
     "angular-6-clipboard": "^1.0.1",
     "file-saver": "^2.0.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.16.0",
     "primeicons": "^2.0.0",
     "primeng": "^8.1.1",
